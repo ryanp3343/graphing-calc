@@ -5,88 +5,88 @@ void input::step(int command)
     //from processing events
 
     //right increase range and regraph cordinates
-    if(command==GORIGHT)
+    if (command == GORIGHT)
     {
-        setXmax(_xmax+1);
-        setXmin(_xmin+1);
+        setXmax(_xmax + 1);
+        setXmin(_xmin + 1);
         getCoordin();
     }
     //left decreases range and regraph cordinates
-    else if(command==GOLEFT)
+    else if (command == GOLEFT)
     {
-        setXmin(_xmin-1);
-        setXmax(_xmax-1);
+        setXmin(_xmin - 1);
+        setXmax(_xmax - 1);
         getCoordin();
     }
 
 
-    else if(command==GOUP)
+    else if (command == GOUP)
     {
         //increase the xyCord by the position of y vertex
-        for(double xpix=0; xpix<= GRAPH_PANEl; xpix++)
+        for (double xpix = 0; xpix <= GRAPH_PANEl; xpix++)
         {
             xyCord[xpix].position.y += 100;
         }
         //clears and sets new position for x axis
         xAxis.clear();
-        getXAx(xAxis[0].position.x, xAxis[0].position.y+100);
+        getXAx(xAxis[0].position.x, xAxis[0].position.y + 100);
     }
-    else if(command==GODOWN)
+    else if (command == GODOWN)
     {
         //decrease the xyCord by the postion of y vertex
-        for(double xpix=0; xpix<= GRAPH_PANEl; xpix++)
+        for (double xpix = 0; xpix <= GRAPH_PANEl; xpix++)
         {
             xyCord[xpix].position.y -= 100;
         }
         //clears and sets new position for x axis
         xAxis.clear();
-        getXAx(xAxis[0].position.x, xAxis[0].position.y-100);
+        getXAx(xAxis[0].position.x, xAxis[0].position.y - 100);
     }
 
     //zoom in decrease range increase scale regraph cordinates
-    else if(command==IN)
+    else if (command == IN)
     {
-        setXmin(_xmin*0.95);
-        setXmax(_xmax*0.95);
-        SCALE*=1.05;
+        setXmin(_xmin * 0.95);
+        setXmax(_xmax * 0.95);
+        SCALE *= 1.05;
         getCoordin();
     }
     //zoom out increase range deacrease scale regraph cordinates
-    else if(command==OUT)
+    else if (command == OUT)
     {
-        setXmin(_xmin*1.05);
-        setXmax(_xmax*1.05);
+        setXmin(_xmin * 1.05);
+        setXmax(_xmax * 1.05);
         getCoordin();
-        SCALE*=0.95;
+        SCALE *= 0.95;
     }
     //resets graph to orginal postion regraph cordinates
-    else if(command==RESET)
+    else if (command == RESET)
     {
         setXmax(10);
         setXmin(-10);
-        SCALE=1;
+        SCALE = 1;
         getCoordin();
     }
     //bool for equation bar on screen
-    else if(command==NEW)
+    else if (command == NEW)
     {
-       please=true;
+        please = true;
 
     }
     //bool for equation bar on screen
-    else if(command==DELETE)
+    else if (command == DELETE)
     {
-       please=false;
+        please = false;
 
     }
     //changes the type of the xy line
-    else if(command==IDK)
+    else if (command == IDK)
     {
         xyCord.setPrimitiveType(LinesStrip);
     }
 
     //changes the type of the xy line
-    else if(command==IDK2)
+    else if (command == IDK2)
     {
         xyCord.setPrimitiveType(Points);
     }
@@ -94,61 +94,56 @@ void input::step(int command)
 }
 
 
-void input::getCoordin()
-{
-    //clear the vertex array
+void input::getCoordin() {
+    // Clear the vertex array
     xyCord.clear();
 
-    double range=_xmax-_xmin;
-  //  cout<<"RANGE: "<<range<<endl;
-    double prevX;
-    double prevY;
-    double prevYPix;
+    double range = _xmax - _xmin;
 
-    for(double xpix=0; xpix<=GRAPH_PANEl; xpix++)
-    {
-        //xval from screen
+    // Initialize previous coordinates to values that will skip initial comparisons
+    double prevX = std::numeric_limits<double>::quiet_NaN();  // Initialize to NaN
+    double prevY = std::numeric_limits<double>::quiet_NaN();  // Initialize to NaN
+    double prevYPix = 0.0;  // Initialize if it's to be used later
 
-        double xval=_xmin +(xpix/GRAPH_PANEl)*range;    //graph 2044
+    for (double xpix = 0; xpix <= GRAPH_PANEl; xpix++) {
+        // x value from screen
+        double xval = _xmin + (xpix / GRAPH_PANEl) * range;
 
-        //yval from evalution from rpn function
-        double yval=g.Evaluate(postfix,xval)*SCALE;
-      //cout<<"XVAL: "<<xval<<" YVAL: "<<yval<<endl;
+        // y value based on evaluation using the RPN function
+        double yval = g.Evaluate(postfix, xval) * SCALE;
 
-        //amount of pixels based on how many xpixels on screen
-        _ypixel=(1-(yval/_grids))*SCREEN_HEIGHT/2;   //height 675
-      //cout<<"YPIXEL: "<<_ypixel<<endl;
+        // Calculate the pixel position based on screen coordinates
+        _ypixel = (1 - (yval / _grids)) * SCREEN_HEIGHT / 2;
 
-        //plot x axis in middle of xvals
-        if(prevX<=0 && xval>=0)
-        {
-            getYAx(xpix,_ypixel);
-        }
-        //plot y axis in middle of yvals
-        if(prevY<=0 && yval>=0)
-        {
-            getXAx(xpix,(_ypixel));
+        // Plot the x-axis if transitioning across zero (middle of x values)
+        if (!std::isnan(prevX) && prevX <= 0 && xval >= 0) {
+            getYAx(xpix, _ypixel);
         }
 
-        //vertex of graph line
+        // Plot the y-axis if transitioning across zero (middle of y values)
+        if (!std::isnan(prevY) && prevY <= 0 && yval >= 0) {
+            getXAx(xpix, _ypixel);
+        }
+
+        // Create a vertex for the graph line
         Vertex vertex;
-        //position in relation to x and y cord
-        vertex.position=Vector2f(xpix,_ypixel);
-        vertex.color=Color(58,185,54);
-        //append the vertex to x and y cordinates
+        vertex.position = Vector2f(xpix, _ypixel);
+        vertex.color = Color(58, 185, 54);
+
+        // Append the vertex to the coordinates
         xyCord.append(vertex);
 
-
-       prevX=xval;
-       prevY=yval;
-       prevYPix=_ypixel;
+        // Update previous values for the next iteration
+        prevX = xval;
+        prevY = yval;
+        prevYPix = _ypixel;
     }
 }
 
-void input::Draw(RenderWindow &window)
+void input::Draw(RenderWindow& window)
 {
     //draws brackround, x/y axis, and graph line
-    if(please==false)
+    if (please == false)
     {
         window.clear();
         window.draw(_back);
@@ -157,7 +152,7 @@ void input::Draw(RenderWindow &window)
         window.draw(xyCord);
     }
     //draws backround, x/y axis, graph line and box to input expression
-    if(please==true)
+    if (please == true)
     {
         window.clear();
         window.draw(_back);
@@ -176,10 +171,10 @@ void input::getXAx(double x, double y)
     xAxis.clear();
     Vertex xVertex[2];
     xVertex[0].position = Vector2f(0, y);
-    xVertex[0].color = Color(255,255,255);
+    xVertex[0].color = Color(255, 255, 255);
     xAxis.append(xVertex[0]);
     xVertex[1].position = Vector2f(GRAPH_PANEl, y);
-    xVertex[1].color = Color(255,255,255);
+    xVertex[1].color = Color(255, 255, 255);
     xAxis.append(xVertex[1]);
 
 
@@ -191,10 +186,10 @@ void input::getYAx(double x, double y)
     yAxis.clear();
     Vertex yVertex[2];
     yVertex[0].position = Vector2f(x, 0);
-    yVertex[0].color = Color(255,255,255);
+    yVertex[0].color = Color(255, 255, 255);
     yAxis.append(yVertex[0]);
     yVertex[1].position = Vector2f(x, SCREEN_HEIGHT);
-    yVertex[1].color = Color(255,255,255);
+    yVertex[1].color = Color(255, 255, 255);
     yAxis.append(yVertex[1]);
 
 }

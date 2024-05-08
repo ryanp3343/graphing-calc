@@ -11,7 +11,7 @@ class Stack
 {
 public:
 
-    class Iterator{
+    class Iterator {
 
     public:
 
@@ -19,7 +19,7 @@ public:
 
         Iterator next()
         {
-            return Iterator(_ptr+1);
+            return Iterator(_ptr + 1);
         }
 
         T& operator *()
@@ -30,7 +30,7 @@ public:
         T* operator ->() {
 
             Iterator hold;
-            hold._ptr=this;
+            hold._ptr = this;
             return hold._ptr;
         }
 
@@ -39,7 +39,7 @@ public:
             return _ptr;
         }
 
-        friend Iterator operator ++(Iterator& it,int unused)
+        friend Iterator operator ++(Iterator& it, int unused)
         {
             Iterator hold;
             hold = it;
@@ -64,26 +64,26 @@ public:
             return(!_ptr);
         }
 
-        friend bool operator !=(const Iterator& left,const Iterator& right)
+        friend bool operator !=(const Iterator& left, const Iterator& right)
         {
             return left._ptr != right._ptr;
         }
 
         friend bool operator ==(const Iterator& left, const Iterator& right)
         {
-            return(left._ptr==right._ptr);
+            return(left._ptr == right._ptr);
         }
 
-            private:
-                node<T>* _ptr;
+    private:
+        node<T>* _ptr;
 
     };
 
 
     Stack();
-    ~Stack(){}
-    void push (T item);
-    T pop ();
+    ~Stack() {}
+    void push(T item);
+    T pop();
     T top();
     void Print(Stack&);
     bool empty() const;
@@ -93,7 +93,7 @@ public:
     template <class U>
     friend ostream& operator <<(ostream& outs, const Stack<U>& l);
 
-    private:
+private:
 
     List<T> stack;
 };
@@ -118,17 +118,17 @@ T Stack<T>::pop()
 
     //node to start of stack then list function to delete that noode
     T result;
-    node<T>* discard=stack.Begin();
-    result=stack.Delete(discard);
+    node<T>* discard = stack.Begin();
+    result = stack.Delete(discard);
     return result;
 }
 
 template <class T>
 T Stack<T>::top()
 {
-        //return the top of the stack
-        node<T>* top=stack.Begin();
-        return top->_item;
+    //return the top of the stack
+    node<T>* top = stack.Begin();
+    return top->_item;
 }
 
 template <class T>
@@ -143,14 +143,14 @@ typename Stack<T>::Iterator Stack<T>::begin() const
 {
     //returns the top of the stack
 
-        return Stack<T>::Iterator(this->stack.Begin());
+    return Stack<T>::Iterator(this->stack.Begin());
 }
 
 template <class T>
-typename Stack<T>:: Iterator Stack<T>::End() const
+typename Stack<T>::Iterator Stack<T>::End() const
 {
     //list function to end of list and return
-    node<T>* ptr=stack.End();
+    node<T>* ptr = stack.End();
     typename List<T>::Iterator it(ptr);
     return Iterator(it);
 
@@ -160,7 +160,7 @@ template <class T>
 bool Stack<T>::empty() const {
 
     //if stack is empty return true
-    return (stack.Begin()==NULL);
+    return (stack.Begin() == NULL);
 
 }
 

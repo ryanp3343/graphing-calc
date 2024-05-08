@@ -26,7 +26,7 @@ public:
         userInput();
     }
 
-    void userInput(string str="");
+    void userInput(string str = "");
 
     Queue<Token*> Tokenize();
 
@@ -35,12 +35,12 @@ public:
     Queue<Token*> toRPN()
     {
         //function that uses rpn fucnctions to converts a string to poins
-        Queue<Token*> tmp=Tokenize();
-        Queue<Token*> user=toPostFix(tmp);
+        Queue<Token*> tmp = Tokenize();
+        Queue<Token*> user = toPostFix(tmp);
         return user;
     }
 
-    string getExp(){return _expression;}
+    string getExp() { return _expression; }
 
     double Evaluate(Queue<Token*> postfix, double num);
 

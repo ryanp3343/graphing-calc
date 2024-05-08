@@ -1,15 +1,3 @@
-/*
- * Author: Ryan Puertas
- * Project: Graphing Calculator
- * Purpose: Create a graph from expression given from the user,
- *          interactive elemenst like zooming in out move left
- *          right up and down
- *
- * Notes:
- *
- *
- */
-
 #include <iostream>
 #include "shuntingyard.h"
 #include "user.h"
@@ -27,4 +15,3 @@ int main()
 
     return 0;
 }
-

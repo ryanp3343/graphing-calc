@@ -2,97 +2,73 @@
 #define OPERATOR_H
 
 #include "token.h"
-#include "constants.h"
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
-using namespace std;
-
-class Operator: public Token
-{
+class Operator : public Token {
 public:
-    Operator(char op): _op(op) {}
+    Operator(char op) : _op(op) {}
 
-    int get_type()
-    {
+    int get_type() const override {
         return _operator;
     }
-    //returns precedence of operators for comparison
-    int prec()
-    {
-        switch(this->get_sym())
-        {
+
+    char get_sym() const override {
+        return _op;
+    }
+
+    bool get_trig() const override {
+        return false;
+    }
+
+    double doTrig(double) const override {
+        return 0.0;
+    }
+
+    int prec() const {
+        switch (_op) {
         case '+':
             return add;
-
         case '-':
             return sub;
-
         case '/':
             return divide;
-
         case '*':
             return mult;
-
         case '^':
             return expon;
-
         default:
             return -1;
         }
-
-    }
-    char getOp()
-    {
-        return _op;
-    }
-    char setOp(char op)
-    {
-        _op=op;
-        return op;
     }
 
-    char get_sym()
-    {
-        return _op;
-    }
-
-    //how to calculate when with certain operators
-    double calc_op(double lhs, double rhs)
-    {
-        if(_op=='+')
-        {
-            return (lhs+rhs);
-        }
-        else if(_op=='-')
-        {
-            return (lhs-rhs);
-        }
-        else if(_op=='*')
-        {
-            return (lhs*rhs);
-        }
-        else if(_op=='/')
-        {
-            return (lhs/rhs);
-        }
-        else if(_op=='^')
-        {
+    double calc_op(double lhs, double rhs) const {
+        switch (_op) {
+        case '+':
+            return lhs + rhs;
+        case '-':
+            return lhs - rhs;
+        case '*':
+            return lhs * rhs;
+        case '/':
+            return lhs / rhs;
+        case '^': {
             double result = 1;
-            for(int i=0; i<rhs; i++)
-            {
-                result*=lhs;
+            for (int i = 0; i < rhs; i++) {
+                result *= lhs;
             }
             return result;
         }
+        default:
+            return 0;
+        }
     }
 
-    void print(ostream& outs=cout)const{
-        outs<<_op;
+    void print(std::ostream& outs = std::cout) const override {
+        outs << _op;
     }
 
 private:
-    int _precedence;
     char _op;
 };
 

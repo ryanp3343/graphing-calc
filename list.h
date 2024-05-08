@@ -10,20 +10,20 @@ template <typename T>
 class List
 {
 public:
-    class Iterator{
+    class Iterator {
 
         Iterator()
         {
-            _ptr=NULL;
+            _ptr = NULL;
         }
         Iterator(node<T>* tmp)
         {
-            _ptr=tmp;
+            _ptr = tmp;
         }
 
         Iterator next()
         {
-            return Iterator(_ptr+1);
+            return Iterator(_ptr + 1);
         }
         T& operator *()
         {
@@ -33,7 +33,7 @@ public:
         T* operator ->() {
 
             Iterator hold;
-            hold._ptr=this;
+            hold._ptr = this;
             return hold._ptr;
         }
         const node<T>* operator ->()const {
@@ -41,7 +41,7 @@ public:
             return _ptr;
         }
 
-        friend Iterator operator ++(Iterator& it,int unused)
+        friend Iterator operator ++(Iterator& it, int unused)
         {
             Iterator hold;
             hold = it;
@@ -59,47 +59,47 @@ public:
         {
             return(!_ptr);
         }
-        friend bool operator !=(const Iterator& left,const Iterator& right)
+        friend bool operator !=(const Iterator& left, const Iterator& right)
         {
             return left._ptr != right._ptr;
         }
 
         friend bool operator ==(const Iterator& left, const Iterator& right)
         {
-            return(left._ptr==right._ptr);
+            return(left._ptr == right._ptr);
         }
 
-            private:
-                node<T>* _ptr;
+    private:
+        node<T>* _ptr;
 
     };
 
-        List();
-        ~List();
-        List& operator=(const List& RHS);
-        List(const List<T>& copyThis);
+    List();
+    ~List();
+    List& operator=(const List& RHS);
+    List(const List<T>& copyThis);
 
 
-        node<T>* InsertHead(T i);
-        Iterator InsertAfter(T i, Iterator iMarker);
-        Iterator InsertBefore(T i, Iterator iMarker);
-        Iterator InsertSorted(T i);
-        Iterator Search(const T& key);
-        Iterator Prev(node<T>* iMarker);
-        node<T>* Begin() const;
-        Iterator End() const;
-        T        Delete(node<T>* iMarker);
-        void     Print() const;
+    node<T>* InsertHead(T i);
+    Iterator InsertAfter(T i, Iterator iMarker);
+    Iterator InsertBefore(T i, Iterator iMarker);
+    Iterator InsertSorted(T i);
+    Iterator Search(const T& key);
+    Iterator Prev(node<T>* iMarker);
+    node<T>* Begin() const;
+    Iterator End() const;
+    T        Delete(node<T>* iMarker);
+    void     Print() const;
 
-        T& operator[](int index);
-        void    PrintCursor(Iterator cursor) const;
+    T& operator[](int index);
+    void    PrintCursor(Iterator cursor) const;
 
-        // friends
-        template <class U>
-        friend ostream& operator <<(ostream& outs, const List<U>& l);   // insertion operator for list
+    // friends
+    template <class U>
+    friend ostream& operator <<(ostream& outs, const List<U>& l);   // insertion operator for list
 
-    private:
-        node<T>* head;
+private:
+    node<T>* head;
 };
 
 template <class T>
@@ -120,10 +120,10 @@ template <class T>
 List<T>& List<T>::operator=(const List& RHS)
 {
     //copylist over
-    if(this!=&RHS)
+    if (this != &RHS)
     {
         destroyList(head);
-        head=CopyList(RHS.Begin());
+        head = CopyList(RHS.Begin());
     }
     return *this;
 }
@@ -132,7 +132,7 @@ template <class T>
 List<T>::List(const List<T>& listToCopy)
 {
     //copy list over
-    head=CopyList(listToCopy.Begin());
+    head = CopyList(listToCopy.Begin());
 
 }
 
@@ -140,20 +140,20 @@ template <class T>
 node<T>* List<T>::InsertHead(T i)
 {
     //list function to instert head
-    node<T>* temp= insertHead(head,i);
+    node<T>* temp = insertHead(head, i);
     return temp;
-//    if (head == nullptr)
-//    {
-//        head = new node<T>(i);
+    //    if (head == nullptr)
+    //    {
+    //        head = new node<T>(i);
 
-//    }
-//    else
-//    {
-//        node<T>* tmp = new node<T>(i);
-//        tmp->_next = head;
-//        head = tmp;
-//    }
-//    return Iterator(head);
+    //    }
+    //    else
+    //    {
+    //        node<T>* tmp = new node<T>(i);
+    //        tmp->_next = head;
+    //        head = tmp;
+    //    }
+    //    return Iterator(head);
 }
 
 template <class T>
@@ -161,23 +161,23 @@ typename List<T>::Iterator List<T>::InsertAfter(T i, Iterator iMarker)
 {
 
     //list function to instert after
-      node<T>* temp=InsertAfter(head,iMarker,i);
-      return Iterator(temp);
-//    Iterator iter_tmp(head);
-//    while (iter_tmp != nullptr)
-//    {
+    node<T>* temp = InsertAfter(head, iMarker, i);
+    return Iterator(temp);
+    //    Iterator iter_tmp(head);
+    //    while (iter_tmp != nullptr)
+    //    {
 
-//        if (!(iter_tmp != iMarker))
-//        {
-//            node<T>* tmp = new node<T>(i);
-//            tmp->_next = iter_tmp->_next;
-//            iter_tmp->_next = tmp;
-//            return Iterator(tmp);
+    //        if (!(iter_tmp != iMarker))
+    //        {
+    //            node<T>* tmp = new node<T>(i);
+    //            tmp->_next = iter_tmp->_next;
+    //            iter_tmp->_next = tmp;
+    //            return Iterator(tmp);
 
-//        }
-//        iter_tmp = iter_tmp->_next;
-//    }
-//    return nullptr;
+    //        }
+    //        iter_tmp = iter_tmp->_next;
+    //    }
+    //    return nullptr;
 }
 
 
@@ -186,7 +186,7 @@ typename List<T>::Iterator List<T>::InsertBefore(T i, Iterator iMarker)
 {
 
     //list function to instert before
-    node<T>* temp=InsertBefore(head,iMarker,i);
+    node<T>* temp = InsertBefore(head, iMarker, i);
     return Iterator(temp);
 
 }
@@ -195,55 +195,55 @@ template <class T>
 typename List<T>::Iterator List<T>::InsertSorted(T i)
 {
 
-//    node<T>* iter_tmp = head;
-//    while (iter_tmp != nullptr)
-//    {
-//        if (i <= iter_tmp->_item)
-//        {
-//            node<T>* tmp = new node<T>(i);
-//            tmp->_next = iter_tmp;
-//            iter_tmp = tmp;
-//            return Iterator(iter_tmp);
+    //    node<T>* iter_tmp = head;
+    //    while (iter_tmp != nullptr)
+    //    {
+    //        if (i <= iter_tmp->_item)
+    //        {
+    //            node<T>* tmp = new node<T>(i);
+    //            tmp->_next = iter_tmp;
+    //            iter_tmp = tmp;
+    //            return Iterator(iter_tmp);
 
-//        }
-//        else if (iter_tmp->_next == nullptr)
-//        {
-//            iter_tmp->_next = new node<T>(i);
-//            return Iterator(iter_tmp->_next);
+    //        }
+    //        else if (iter_tmp->_next == nullptr)
+    //        {
+    //            iter_tmp->_next = new node<T>(i);
+    //            return Iterator(iter_tmp->_next);
 
-//        }
-//        else
-//        {
-//            iter_tmp = iter_tmp->_next;
-//        }
-//    }
-//    return nullptr;
+    //        }
+    //        else
+    //        {
+    //            iter_tmp = iter_tmp->_next;
+    //        }
+    //    }
+    //    return nullptr;
 
-    //list function to instert before
-    node<T>* here=InsertSorted(head,i);
+        //list function to instert before
+    node<T>* here = InsertSorted(head, i);
     return Iterator(here);
 }
 template <class T>
 typename List<T>::Iterator List<T>::Search(const T& key)
 {
-//    Iterator iter_tmp = head;
-//    while (iter_tmp != nullptr)
-//    {
-//        if (iter_tmp->_item == key)
-//        {
-//            cursor=iter_tmp;
-//            break;
+    //    Iterator iter_tmp = head;
+    //    while (iter_tmp != nullptr)
+    //    {
+    //        if (iter_tmp->_item == key)
+    //        {
+    //            cursor=iter_tmp;
+    //            break;
 
-//        }
-//        else
-//        {
-//            iter_tmp = iter_tmp->_next;
-//        }
-//    }
-//    return cursor;
+    //        }
+    //        else
+    //        {
+    //            iter_tmp = iter_tmp->_next;
+    //        }
+    //    }
+    //    return cursor;
 
-    //list function to search
-    node<T>* found=Search(head,key);
+        //list function to search
+    node<T>* found = Search(head, key);
     return Iterator(found);
 }
 
@@ -254,7 +254,7 @@ typename List<T>::Iterator List<T>::Prev(node<T>* iMarker)
 {
 
     //list function to return previous node
-    node<T>* prev=previousNode(head,iMarker);
+    node<T>* prev = previousNode(head, iMarker);
     return Iterator(prev);
 
 }
@@ -264,7 +264,7 @@ template <class T>
 node<T>* List<T>::Begin() const
 {
     //returns the head of list
-    if(!head)
+    if (!head)
         return nullptr;
 
     else
@@ -275,21 +275,21 @@ template <class T>
 typename List<T>::Iterator List<T>::End() const
 {
 
-//    Iterator iter(head);
-//    while (true)
-//    {
-//        if (iter->_next == NULL)
-//        {
-//            return iter;
-//        }
-//        else {
-//            iter=iter->_next;
-//        }
-//    }
+    //    Iterator iter(head);
+    //    while (true)
+    //    {
+    //        if (iter->_next == NULL)
+    //        {
+    //            return iter;
+    //        }
+    //        else {
+    //            iter=iter->_next;
+    //        }
+    //    }
 
-    //returns last node of list
+        //returns last node of list
     node<T>* end;
-    end=lastNode(head);
+    end = lastNode(head);
     return Iterator(end);
 }
 
@@ -335,13 +335,13 @@ T List<T>::Delete(node<T>* iMarker) {
 
 
     //list function to delete node
-    T item=DeleteNode(head,iMarker);
+    T item = DeleteNode(head, iMarker);
     return item;
 
 }
 
 template <class T>
-void List<T>::PrintCursor(Iterator cursor) const{
+void List<T>::PrintCursor(Iterator cursor) const {
 
     //prints cursor
     Iterator iter = Begin();

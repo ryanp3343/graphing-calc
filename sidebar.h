@@ -22,7 +22,7 @@ private:
     RectangleShape bar;
     Font font;
     Text expression_txt;
-    string history="";
+    string history = "";
 
 };
 #endif // SIDEBAR_H
