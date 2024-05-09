@@ -1,20 +1,20 @@
-#ifndef INTEGER_H
-#define INTEGER_H
+#ifndef VAR_H
+#define VAR_H
 
 #include "token.h"
-#include "constants.h"
 #include <iostream>
 
-class Integer : public Token {
+class Var : public Token {
 public:
-    Integer(double num) : _num(num) {}
+    Var() : _var('x') {} // Default variable to 'x'
+    explicit Var(char var) : _var(var) {}
 
     int get_type() const override {
-        return _int;
+        return TokenTypes::Variable;
     }
 
     char get_sym() const override {
-        return 0;
+        return _var;
     }
 
     bool get_trig() const override {
@@ -25,16 +25,12 @@ public:
         return 0.0;
     }
 
-    double get_Num() const {
-        return _num;
-    }
-
     void print(std::ostream& outs = std::cout) const override {
-        outs << _num;
+        outs << _var;
     }
 
 private:
-    double _num;
+    char _var;
 };
 
-#endif // INTEGER_H
+#endif // VAR_H

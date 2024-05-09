@@ -26,7 +26,7 @@ public:
         userInput();
     }
 
-    void userInput(string str = "");
+    void userInput(std::string str = "");
 
     Queue<Token*> Tokenize();
 
@@ -40,15 +40,15 @@ public:
         return user;
     }
 
-    string getExp() { return _expression; }
+    std::string getExp() { return _expression; }
 
     double Evaluate(Queue<Token*> postfix, double num);
 
-    void test();
-
 private:
 
-    string _expression;
+    std::string _expression;
+
+
 
 
 };

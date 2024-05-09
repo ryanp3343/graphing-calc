@@ -7,10 +7,12 @@
 
 class Operator : public Token {
 public:
-    Operator(char op) : _op(op) {}
+    explicit Operator(char op) : _op(op) {}
+
+    ~Operator() override = default; // Virtual destructor
 
     int get_type() const override {
-        return _operator;
+        return TokenTypes::Operator;
     }
 
     char get_sym() const override {
@@ -28,15 +30,15 @@ public:
     int prec() const {
         switch (_op) {
         case '+':
-            return add;
+            return Precedence::Add;
         case '-':
-            return sub;
+            return Precedence::Subtract;
         case '/':
-            return divide;
+            return Precedence::Divide;
         case '*':
-            return mult;
+            return Precedence::Multiply;
         case '^':
-            return expon;
+            return Precedence::Exponent;
         default:
             return -1;
         }
@@ -52,13 +54,8 @@ public:
             return lhs * rhs;
         case '/':
             return lhs / rhs;
-        case '^': {
-            double result = 1;
-            for (int i = 0; i < rhs; i++) {
-                result *= lhs;
-            }
-            return result;
-        }
+        case '^':
+            return std::pow(lhs, rhs); // Use std::pow instead of a manual loop
         default:
             return 0;
         }

@@ -5,14 +5,15 @@
 #include <cmath>
 #include <string>
 #include <iostream>
+#include <unordered_set>
 
 class TrigFunction : public Token {
 public:
-    TrigFunction() : trig_function(" ") {}
-    TrigFunction(const std::string& function) : trig_function(function) {}
+    TrigFunction() : trig_function("sin") {} // Set "sin" as the default function
+    explicit TrigFunction(const std::string& function) : trig_function(function) {}
 
     int get_type() const override {
-        return _function;
+        return TokenTypes::Function;
     }
 
     char get_sym() const override {
@@ -20,9 +21,10 @@ public:
     }
 
     bool get_trig() const override {
-        return (trig_function == "sin" || trig_function == "cos" ||
-            trig_function == "tan" || trig_function == "csc" ||
-            trig_function == "cot" || trig_function == "sec");
+        static const std::unordered_set<std::string> trigFunctions = {
+            "sin", "cos", "tan", "csc", "cot", "sec"
+        };
+        return trigFunctions.count(trig_function) > 0;
     }
 
     double doTrig(double x) const override {

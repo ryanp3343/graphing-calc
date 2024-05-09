@@ -16,13 +16,15 @@ class sidebar
 public:
     sidebar();
     void draw(RenderWindow& window);
-    void set_infix(string infix);
+    void set_infix(std::string infix);
 
 private:
     RectangleShape bar;
     Font font;
     Text expression_txt;
-    string history = "";
+    Text history_label;
+    RectangleShape underline;
+    std::string history = "";
 
 };
 #endif // SIDEBAR_H
