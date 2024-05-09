@@ -62,3 +62,8 @@ The Graphing Calculator uses the [SFML](https://www.sfml-dev.org/) (Simple and F
 - **Shunting Yard Algorithm**: Utilizes the shunting yard algorithm and tokenization for accurate expression parsing and evaluation.
 - **Modular Structure**: Uses a modular structure with separate files for different functionalities like input parsing, graph drawing, and shunting-yard evaluation.
 - **Maintainability**: Refactored to include reusable data structures and utility functions for improved maintainability.
+
+## Acknowledgments
+
+This project uses [SFML](https://www.sfml-dev.org/), which is licensed under the zlib/png license. A copy of the license can be found in the file `SFML_LICENSE`.
+
